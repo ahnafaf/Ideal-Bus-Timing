@@ -5,6 +5,11 @@ XxCodingProjectxX
 (dictStop2[i]['times']['arrival']['scheduled'])
 
 # print(json.dumps(busStop2["stop-schedule"]["route-schedules"], indent=1, sort_keys=True))
+
+
+date difference
+
+then use datediff.minutes
 """
 
 import requests
@@ -23,6 +28,9 @@ dictStop1 = busStop1["stop-schedule"]["route-schedules"][0]['scheduled-stops']
 bus_timings2 = {} 
 bus_timings1 = {}
 
+# empty list of difference of times
+timeDiff = []
+
 # Function that goes into dictionary maker to return datetime object into the bus_timings dictionary
 def timeTransform(dateString):
     return datetime.strptime(dateString, '%Y-%m-%dT%H:%M:%S')
@@ -30,7 +38,7 @@ def timeTransform(dateString):
 
 def dictMaker(busDict1, busDict2):  
     for i in range(len(busDict1)): ## To iterate through the values within the filtered dictionary
-        if (busDict1[i]['variant']['name'] == 'River Road to St. Vital Centre via River Road'): ## Checks if the name is UManitoba or not
+        if (busDict1[i]['variant']['name'] == 'Eastbound Bison at Appleford'): ## Checks if the name is UManitoba or not
             bus_timings1[f"Bus_{i}"] = timeTransform(busDict1[i]['times']['arrival']['scheduled'])
         else:
             print("Else")
@@ -41,7 +49,14 @@ def dictMaker(busDict1, busDict2):
         else:
             print("Else")
 
+    
 dictMaker(dictStop1,dictStop2)
                 
-    
+# First get each dates from the dictionaries
+def timeChecker():
+    for i in range(min(len(bus_timings1),len(bus_timings2))):
+        timeDiff[i] = list(bus_timings2.values())[i] - list(bus_timings1.values())[i]
+        
+timeChecker()
+        
         
