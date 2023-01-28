@@ -35,7 +35,7 @@ dictStop2 = busStop2["stop-schedule"]["route-schedules"][0]['scheduled-stops']
 dictStop1 = busStop1["stop-schedule"]["route-schedules"][0]['scheduled-stops'] 
 
 # empty list of difference of times
-timeDiff = []
+timeDiff = {}
 
 
 
@@ -61,6 +61,8 @@ bus_timings1, bus_timings2 = dictMaker(dictStop1,dictStop2) # b_t1 holds all the
 
 ## Function that goes into dictionary maker to return datetime object into the bus_timings dictionary
 ##First get each dates from the dictionaries
-for p, v in itertools.product(bus_timings1, bus_timings2):
-    if (v > p and (v - p < timedelta(seconds=600))):
-        timeDiff.append(str(v-p))
+for busStop1Timing, busStop2Timing in itertools.product(bus_timings1, bus_timings2):
+    if (busStop2Timing > busStop1Timing and (busStop2Timing - busStop1Timing < timedelta(seconds=600))):
+        timeDiff[f"{busStop1Timing}"] = "Time difference is " + str(busStop2Timing - busStop1Timing)
+        
+        
